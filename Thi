@@ -1,0 +1,25 @@
+from telegram import Update
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+
+# Функция для ответа на сообщения
+def reply_message(update: Update, context: CallbackContext):
+    if update.message.reply_to_message:  # Если это ответ на сообщение
+        original_user = update.message.reply_to_message.from_user.username
+        reply_text = f"Вы ответили пользователю @{original_user}: {update.message.text}"
+        update.message.reply_text(reply_text)
+
+# Запуск бота
+def main():
+    TOKEN = 7509867184:AAEuyu8HA9VfC1Ik8J8_sr2GzS766T90FF0
+    updater = Updater(TOKEN)
+
+    dp = updater.dispatcher
+
+    # Обработчик текстовых сообщений
+    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, reply_message))
+
+    updater.start_polling()
+    updater.idle()
+
+if name == 'main':
+    main()
